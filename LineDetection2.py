@@ -5,7 +5,7 @@ import argparse
 import math
 import cv2
 #define capture sorce
-cap = cv2.VideoCapture("test4.mp4")
+cap = cv2.VideoCapture("test.mp4")
 
 #do one read to populate size
 rets, frame = cap.read()
@@ -31,12 +31,12 @@ prev_right_x2 = 0
 kernel_size = 3
 
 #Canny Edge Detector Thresholds
-low_threshold = 50
+low_threshold = 10
 high_threshold = 150
 
 #Region of interest
-top_left_ROI = [w * .15, resized_h / 1.5]
-top_right_ROI = [resized_w - (resized_w * .30), resized_h / 1.5]
+top_left_ROI = [w, resized_h / 1.5]
+top_right_ROI = [resized_w - (resized_w), resized_h / 1.5]
 bottom_right_ROI = [resized_w, resized_h]
 bottom_left_ROI = [0, resized_h]
 
@@ -62,7 +62,7 @@ def convert_grey(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 def convert_lab(image):
-    return cv2.cvtColor(image, cv2.COLOR_BGR2Lab)
+    return cv2.cvtColor(image, cv2.COLOR_BGR2LAB)
 
 def canny(frame, low_threshold = low_threshold, high_threshold = high_threshold):
     return cv2.Canny(frame, low_threshold, high_threshold)
@@ -224,8 +224,9 @@ def filter_colors(image):
 
     return image2
 
-while True:
 
+
+while True:
     ret, frame = cap.read()
     img = cv2.resize(frame,(resized_w, resized_h), interpolation=cv2.INTER_CUBIC)
 
@@ -234,20 +235,15 @@ while True:
 
     if rets == True:
 
-        color_mask = select_white_yellow(apply_smoothing(img, 3))
-
-        mask1 = cv2.inRange(test_color, np.uint8([100, 150, 10]), np.uint8([255, 255, 255]))
-        mask2 = cv2.inRange(lab, np.uint8([0, 10, 150]), np.uint8([255, 255, 255]))
-
-        mask = cv2.bitwise_or(mask1, mask2)
-        cmask = cv2.bitwise_and(img, img, mask=mask1)
-
-        lines = hough_lines(region_of_interest(canny(canny(lab[:,:,2]))))
+        lab = convert_lab(img)[:,:,2]
+        labtest = convert_hls(img)[:, :, 2]
+        lab_canny = canny(lab)
+        lines = hough_lines(region_of_interest(canny(lab)))
         lined_image = draw_line(img, lines)
 
         cv2.imshow('img2',lined_image)
-        cv2.imshow('lines', canny(lab[:,:,2]))
-        cv2.imshow('tes', cmask)
+        cv2.imshow('lines', lab)
+        cv2.imshow('lines2', lab_canny)
 
 
 
