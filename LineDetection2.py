@@ -5,7 +5,7 @@ import argparse
 import math
 import cv2
 #define capture sorce
-cap = cv2.VideoCapture("test.mp4")
+cap = cv2.VideoCapture("test3.mp4")
 
 #do one read to populate size
 rets, frame = cap.read()
@@ -159,7 +159,7 @@ def draw_line(img, lines):
     y1 = resized_h
     y2 = int(img.shape[0] / 1.5)
 
-
+    print y1, y2
     if len(right_lines_y) > 0:
         right_m = np.polyfit(right_lines_x, right_lines_y, 1)[0]
         right_b = np.polyfit(right_lines_x, right_lines_y, 1)[1]
@@ -168,6 +168,7 @@ def draw_line(img, lines):
         right_x1 = int((y1 - right_b) / right_m)
         right_x2 = int((y2 - right_b) / right_m)
 
+        print right_lines_x, right_lines_y
 
     if len(left_lines_y) > 0:
         left_m = np.polyfit(left_lines_x, left_lines_y, 1)[0]
