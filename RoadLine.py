@@ -1,8 +1,10 @@
 import cv2
 import numpy as np
 import math
+from bresenham import bresenham
+import threading
+import time
 
-import sphinx
 
 class RoadLine():
 
@@ -24,6 +26,17 @@ class RoadLine():
         self._left_lines_x, self._left_lines_y = [], []
         self._right_lines_x, self._right_lines_y = [], []
 
+    def caclulateLeftPoints(self):
+        x1 = self._left_x1
+        if x1 < 0:
+            x1 = 0
+        return list(bresenham(x1,self._current_h, self._left_x2, self._ROI_y1))
+
+    def caclulateRightPoints(self):
+        x1 = self._right_x1
+        if x1 < 0:
+            x1 = 0
+        return list(bresenham(x1,self._current_h, self._right_x2, self._ROI_y1))
 
     def readSourceFrame(self):
         ret, ret_frame = self.cap.read()
@@ -168,9 +181,6 @@ class RoadLine():
         else:
             return False
 
-
-
-
     def calculateLinesLeft(self, lines):
         # slope calculation m = (y2 - y1) / (x2 - x1)
         # slope degree of slope = tan-1((y2 - y1) / (x2 - x1))
@@ -214,9 +224,6 @@ class RoadLine():
         else:
             return 1
 
-    def leftLineMonitor(self):
-        left_false_count += self.calculateLinesLeft()
-
     def weighted_img(self, img, alpha=0.8, beta=1., _lambda=0.):
         mask = np.zeros_like(img)
 
@@ -233,6 +240,17 @@ class RoadLine():
         if self._right_x2 == None:
             self._right_x2 = 0
 
+        top_left_ROI = [self._left_x2, y2]
+        top_right_ROI = [self._right_x2, y2]
+        bottom_right_ROI = [self._right_x1, y1]
+        bottom_left_ROI = [self._left_x1, y1]
+
+        vertices = np.array(
+            [[top_left_ROI, top_right_ROI, bottom_right_ROI, bottom_left_ROI]],
+            dtype=np.int32)
+
+        cv2.fillPoly(mask, vertices, [230, 100, 0])
+
         cv2.line(mask, (self._right_x1, y1), (self._right_x2, y2), [0, 255, 0], 5)
         cv2.line(mask, (self._left_x1, y1), (self._left_x2, y2), [0, 255, 0], 5)
         return cv2.addWeighted(img, alpha, mask, beta, _lambda)
@@ -240,30 +258,39 @@ class RoadLine():
     def getRightLines(self):
         return self._right_lines_x, self._right_lines_y
 
-rd = RoadLine("test3.mp4")
+rd = RoadLine(0)
 w, h = rd.getOrignalSize()
 w_r = w / 2
 h_r = h / 2
 rd.defineRegionOfInterest(w_r, h_r / 1.5, 0, h_r / 1.5, 0, h_r, w_r, h_r)
+leftThreadStop = threading.Event()
+rightThreadStop = threading.Event()
 
 while True:
     ret, frame = rd.readSourceFrame()
     rd.scaleFrame(w / 2, h / 2)
 
     if ret == True:
+        start = time.time()
         original = rd.getSourceFrame()
         color = rd.convertToLAB()
 
         channel = rd.getColorChannel(color, 2)
         canny = rd.getEdges(channel, 50, 150)
         lines = rd.getHougLines(rd.getRegionOfInterest(canny))
-        rd.calculateLinesLeft(lines)
-        print rd.calculateLinesRight(lines)
-        weight = rd.weighted_img(original)
 
+        leftThread = threading.Thread(target= rd.calculateLinesLeft, args=(lines,))
+        rightThread = threading.Thread(target=rd.calculateLinesRight, args=(lines,))
+        #rd.calculateLinesLeft(lines)
+        #rd.calculateLinesRight(lines)
+        leftThread.start()
+        rightThread.start()
+        weight = rd.weighted_img(original)
         cv2.imshow("this",weight)
         cv2.imshow("this2", channel)
-        cv2.imshow("this3", rd.getCurrentFrame())
+        end = time.time()
+        print(end - start)
+
 
     if cv2.waitKey(30) & 0xFF == ord('q'):
         break
