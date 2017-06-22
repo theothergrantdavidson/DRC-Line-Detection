@@ -90,8 +90,67 @@ class RoadLines:
     def getOriginalWidth(self):
         return self._source_width
 
-    def getHougLines(self, frame):
+    def getRightHough(self, frame):
+        rho = 1  # distance resolution in pixels of the Hough grid
+        theta = 1 * np.pi / 180  # angular resolution in radians of the Hough grid
+        threshold = 30  # minimum number of votes (intersections in Hough grid cell)
+        min_line_length = 0  # minimum number of pixels making up a line
+        max_line_gap = 10  # maximum gap in pixels between connectable line segments
 
+        vertices = np.array(
+            [[[self._current_width, self._current_height / 1.5], [self._current_width / 2, self._current_height / 1.5],
+              [self._current_width / 2, self._current_height], [self._current_width, self._current_height]]],
+            dtype=np.int32)
+
+        mask = np.zeros_like(frame)
+
+        # defining a 3 channel or 1 channel color to fill the mask with depending on the input image
+        if len(frame.shape) > 2:
+            channel_count = frame.shape[2]  # i.e. 3 or 4 depending on your image
+            ignore_mask_color = (255,) * channel_count
+        else:
+            ignore_mask_color = 255
+
+        # filling pixels inside the polygon defined by "vertices" with the fill color
+        cv2.fillPoly(mask, vertices, ignore_mask_color)
+
+        # returning the image only where mask pixels are nonzero
+        masked_image = cv2.bitwise_and(frame, mask)
+
+        lines = cv2.HoughLinesP(masked_image, rho, theta, threshold, np.pi / 180, min_line_length, max_line_gap)
+        return lines, masked_image
+
+    def getLeftHough(self, frame):
+        rho = 1  # distance resolution in pixels of the Hough grid
+        theta = 1 * np.pi / 180  # angular resolution in radians of the Hough grid
+        threshold = 30  # minimum number of votes (intersections in Hough grid cell)
+        min_line_length = 0  # minimum number of pixels making up a line
+        max_line_gap = 10  # maximum gap in pixels between connectable line segments
+
+        vertices = np.array(
+            [[[self._current_width / 2, self._current_height / 1.5], [0, self._current_height / 1.5],
+              [0, self._current_height], [ self._current_width/ 2, self._current_height]]],
+            dtype=np.int32)
+
+        mask = np.zeros_like(frame)
+
+        # defining a 3 channel or 1 channel color to fill the mask with depending on the input image
+        if len(frame.shape) > 2:
+            channel_count = frame.shape[2]  # i.e. 3 or 4 depending on your image
+            ignore_mask_color = (255,) * channel_count
+        else:
+            ignore_mask_color = 255
+
+        # filling pixels inside the polygon defined by "vertices" with the fill color
+        cv2.fillPoly(mask, vertices, ignore_mask_color)
+
+        # returning the image only where mask pixels are nonzero
+        masked_image = cv2.bitwise_and(frame, mask)
+
+        lines = cv2.HoughLinesP(masked_image, rho, theta, threshold, np.pi / 180, min_line_length, max_line_gap)
+        return lines, masked_image
+
+    def getHougLines(self, frame):
         rho = 1  # distance resolution in pixels of the Hough grid
         theta = 1 * np.pi / 180  # angular resolution in radians of the Hough grid
         threshold = 30  # minimum number of votes (intersections in Hough grid cell)
@@ -143,9 +202,9 @@ class RoadLines:
                     slope = np.divide(y_diff, x_diff)
 
                     #slope_percentage = abs(np.divide(y_diff, x_diff))
-                    slope_degree = abs(math.atan(np.divide(y_diff, x_diff))) * 100
+                    slope_degree = abs(math.atan(slope)) * 100
 
-                    if slope > 0 and slope_degree > 10:
+                    if slope_degree > 10:
                         self._right_lines_x.append(x1)
                         self._right_lines_x.append(x2)
 
@@ -184,11 +243,9 @@ class RoadLines:
 
                 if x_diff > 0:
                     slope = np.divide(y_diff, x_diff)
+                    slope_degree = abs(math.atan(slope)) * 100
 
-                    slope_percentage = abs(np.divide(y_diff, x_diff))
-                    slope_degree = abs(math.atan(np.divide(y_diff, x_diff))) * 100
-
-                    if slope < 0 and slope_degree > 10:
+                    if slope_degree > 10:
                         self._left_lines_x.append(x1)
                         self._left_lines_x.append(x2)
 
@@ -245,7 +302,7 @@ class RoadLines:
         cv2.line(mask, (self._left_x1, y1), (self._left_x2, y2), [0, 255, 0], 5)
         return cv2.addWeighted(img, alpha, mask, beta, _lambda)
 
-rl = RoadLines("raw1.mov")
+rl = RoadLines("raw2.mov")
 
 while True:
 
@@ -263,16 +320,13 @@ while True:
 
         lines = rl.getHougLines(rl.getRegionOfInterest(edges))
 
-        rl.calculateLinesRight(lines)
-        rl.calculateLinesLeft(lines)
-
-        minLineLength = 100
-        maxLineGap = 10
+        rl.calculateLinesRight(rl.getRightHough(edges)[0])
+        rl.calculateLinesLeft(rl.getLeftHough(edges)[0])
 
         img = rl.getCurrentFrame()
 
 
-        cv2.imshow("othetest", rl.getRegionOfInterest(rl.getEdges(smooth)))
+        cv2.imshow("othetest", rl.getRightHough(edges)[1])
         cv2.imshow("testFrame", rl.weightedFrame(rl.getCurrentFrame()))
         cv2.imshow("orig", rl.getRegionOfInterest(edges))
 
