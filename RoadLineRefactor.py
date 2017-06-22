@@ -96,6 +96,7 @@ class RoadLines:
         threshold = 30  # minimum number of votes (intersections in Hough grid cell)
         min_line_length = 0  # minimum number of pixels making up a line
         max_line_gap = 10  # maximum gap in pixels between connectable line segments
+        self._ROI_Height = self._current_height / 1.5
 
         vertices = np.array(
             [[[self._current_width, self._current_height / 1.5], [self._current_width / 2, self._current_height / 1.5],
@@ -126,6 +127,7 @@ class RoadLines:
         threshold = 30  # minimum number of votes (intersections in Hough grid cell)
         min_line_length = 0  # minimum number of pixels making up a line
         max_line_gap = 10  # maximum gap in pixels between connectable line segments
+        self._ROI_Height = self._current_height / 1.5
 
         vertices = np.array(
             [[[self._current_width / 2, self._current_height / 1.5], [0, self._current_height / 1.5],
@@ -211,6 +213,7 @@ class RoadLines:
                         self._right_lines_y.append(y1)
                         self._right_lines_y.append(y2)
 
+
             y1 = self._current_height
             y2 = self._ROI_Height
 
@@ -275,7 +278,7 @@ class RoadLines:
         mask = np.zeros_like(img)
 
         y1 = self._current_height
-        y2 = self._ROI_Height
+        y2 = int(self._ROI_Height)
 
         if self._left_x1 == None:
             self._left_x1 = 0
@@ -302,7 +305,7 @@ class RoadLines:
         cv2.line(mask, (self._left_x1, y1), (self._left_x2, y2), [0, 255, 0], 5)
         return cv2.addWeighted(img, alpha, mask, beta, _lambda)
 
-rl = RoadLines("raw2.mov")
+rl = RoadLines(0)
 
 while True:
 
@@ -318,13 +321,8 @@ while True:
 
         edges = rl.getEdges(channel)
 
-        lines = rl.getHougLines(rl.getRegionOfInterest(edges))
-
         rl.calculateLinesRight(rl.getRightHough(edges)[0])
         rl.calculateLinesLeft(rl.getLeftHough(edges)[0])
-
-        img = rl.getCurrentFrame()
-
 
         cv2.imshow("othetest", rl.getRightHough(edges)[1])
         cv2.imshow("testFrame", rl.weightedFrame(rl.getCurrentFrame()))
