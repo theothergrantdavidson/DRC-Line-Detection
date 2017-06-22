@@ -98,7 +98,7 @@ class RoadLines:
         min_line_length = 0  # minimum number of pixels making up a line
         max_line_gap = 10  # maximum gap in pixels between connectable line segments
 
-        lines = cv2.HoughLinesP(frame, rho, theta, threshold, np.array([]), min_line_length, max_line_gap)
+        lines = cv2.HoughLinesP(frame, rho, theta, threshold, np.pi/180, min_line_length, max_line_gap)
         return lines
 
     def getRegionOfInterest(self, frame):
@@ -226,21 +226,31 @@ class RoadLines:
             self._left_x2 = 0
 
         if self._right_x1 == None:
-            self._right_x1 = 0
+            self._right_x1 = self._current_width
         if self._right_x2 == None:
-            self._right_x2 = 0
+            self._right_x2 = self._current_width
 
+        top_left_ROI = [self._left_x2, y2]
+        top_right_ROI = [self._right_x2, y2]
+        bottom_right_ROI = [self._right_x1, y1]
+        bottom_left_ROI = [self._left_x1, y1]
+
+        vertices = np.array(
+            [[top_left_ROI, top_right_ROI, bottom_right_ROI, bottom_left_ROI]],
+            dtype=np.int32)
+
+        cv2.fillPoly(mask, vertices, [230, 100, 0])
 
         cv2.line(mask, (self._right_x1, y1), (self._right_x2, y2), [0, 255, 0], 5)
         cv2.line(mask, (self._left_x1, y1), (self._left_x2, y2), [0, 255, 0], 5)
         return cv2.addWeighted(img, alpha, mask, beta, _lambda)
 
-rl = RoadLines('test4.mp4')
+rl = RoadLines("raw1.mov")
 
 while True:
 
     ret, frame = rl.readSourceCapture()
-    rl.scaleFrame(rl.getOriginalWidth() / 2, rl.getOrignalHeight() / 2, frame)
+    rl.scaleFrame(rl.getOriginalWidth() / 3, rl.getOrignalHeight() / 3, frame)
 
     if ret:
         color = rl.convertToLAB()
@@ -251,14 +261,20 @@ while True:
 
         edges = rl.getEdges(channel)
 
-        lines = rl.getHougLines(rl.getRegionOfInterest(rl.getEdges(smooth)))
+        lines = rl.getHougLines(rl.getRegionOfInterest(edges))
 
         rl.calculateLinesRight(lines)
         rl.calculateLinesLeft(lines)
 
+        minLineLength = 100
+        maxLineGap = 10
+
+        img = rl.getCurrentFrame()
+
+
         cv2.imshow("othetest", rl.getRegionOfInterest(rl.getEdges(smooth)))
         cv2.imshow("testFrame", rl.weightedFrame(rl.getCurrentFrame()))
-        cv2.imshow("orig", edges)
+        cv2.imshow("orig", rl.getRegionOfInterest(edges))
 
     if cv2.waitKey(30) & 0xFF == ord('q'):
         break

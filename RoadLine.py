@@ -258,7 +258,7 @@ class RoadLine():
     def getRightLines(self):
         return self._right_lines_x, self._right_lines_y
 
-rd = RoadLine(0)
+rd = RoadLine("raw1.mov")
 w, h = rd.getOrignalSize()
 w_r = w / 2
 h_r = h / 2
