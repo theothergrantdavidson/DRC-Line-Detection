@@ -305,7 +305,7 @@ class RoadLines:
         cv2.line(mask, (self._left_x1, y1), (self._left_x2, y2), [0, 255, 0], 5)
         return cv2.addWeighted(img, alpha, mask, beta, _lambda)
 
-rl = RoadLines(0)
+rl = RoadLines("test.mp4")
 
 while True:
 
