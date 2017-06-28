@@ -34,9 +34,10 @@ class Lines:
     def getColorChannel(self, frame, channel):
         '''
         Method takes a frame and returns a specified color channel from that frame
+        
         :param frame: A video frame
         :param channel: An integer from 0 - 2 which represents a color channel
-        :return: The seperated color channel in the form of a 2 channel video frame
+        :return: The seperated color channel in the form of a 2-Channel frame
         '''
         return frame[:,:,channel]
 
@@ -44,6 +45,7 @@ class Lines:
         '''
         Scales a frame to the sepcified size and then returns that frame as well as updating the current_width
         of a frame in the classes variable field
+        
         :param width: An Integer for a desired width
         :param height: An Integer for a desired height
         :param input_frame: A video frame
@@ -61,6 +63,7 @@ class Lines:
     def getOriginalFrame(self):
         '''
         Reads a frame from the capture source
+        
         :ivar ret: Boolean which represents the return state of capture when read, False when video feed is broken
         :ivar frame: A 3-Channel RGB Video frame returned from capture when it is read
         :return: ret, ret_frame in the form of a tuple
@@ -71,6 +74,7 @@ class Lines:
     def convertToHSV(self, frame):
         '''
         Converts input frame to HSV color space
+        
         :param frame: A 3-Channel RGB video frame
         :return: A 3-Channel HSV frame
         '''
@@ -79,6 +83,7 @@ class Lines:
     def convertToGrey(self, frame):
         '''
         Converts a input frame to greyscale
+        
         :param frame: A 3-Channel video frame
         :return: A 2-Channel greyscale frame
         '''
@@ -87,6 +92,7 @@ class Lines:
     def convertToHLS(self, frame):
         '''
         Converts a input frame to HLS
+        
         :param frame: A 3-Channel RGB frame
         :return: A 3-Channel HLS frame
         '''
@@ -95,6 +101,7 @@ class Lines:
     def convertToXYZ(self, frame):
         '''
         Converts a input frame to XYZ
+        
         :param frame: A 3-Channel RGB frame
         :return: A 3-Channel XYZ frame
         '''
@@ -103,6 +110,7 @@ class Lines:
     def convertToLAB(self, frame):
         '''
         Converts a input frame to LAB
+        
         :param frame: A 3-Channel RGB frame
         :return: A 3-Channel LAB frame
         '''
@@ -111,6 +119,7 @@ class Lines:
     def getEdges(self, frame, low_threshold = 50, high_threshold = 100):
         '''
         Detects the edges in a 2-Channel image based on the threshold between which an edge should exist
+        
         :param frame: A 2-Channel greyscale frame from either the convertToGrey() or getColorChannel()
         :param low_threshold: A value from 0 - 255 for the low threshold with which to choose edges
         :param high_threshold: A value from 0 - 255 for the low threshold with which to choose edges
@@ -119,13 +128,27 @@ class Lines:
         return cv2.Canny(frame, low_threshold, high_threshold)
 
     def smoothFrame(self, frame, kernel_size=15):
+        '''
+        Uses a convultional kernal to smooth an image based on an adaptive gaussian method, 
+        the larger the kernel the longer the processing time
+        
+        :param frame: a 2-Channel or 3-Channel frame
+        :param kernel_size: Must be an odd Integer
+        :return: A frame that has had a gaussian blur applied to it
+        '''
         return cv2.GaussianBlur(frame, (kernel_size, kernel_size), 0)
 
-    def convertToLUV(self, frame):
-        return cv2.cvtColor(frame, cv2.COLOR_BGR2LUV)
-
     def getRightHough(self, frame):
-        rho = 1  # distance resolution in pixels of the Hough grid
+        '''
+        This method calculates the hough lines of the right hand side of the frame and arranges them into an array, 
+        it also returns the frame section which has been analysed. This is returned in the form of a tuple 
+        (lines, masked_image)
+        
+        :param frame: A 2-Channel frame from getEdges() 
+        :returns - lines: An array of lines which have been estimated from the input frame
+        :returns - masked_image: A 2-Channel frame showing the edges that are being used in the estimation process
+        '''
+        rho = 1
         theta = 1 * np.pi / 180  # angular resolution in radians of the Hough grid
         threshold = 30  # minimum number of votes (intersections in Hough grid cell)
         min_line_length = 10  # minimum number of pixels making up a line
@@ -156,6 +179,12 @@ class Lines:
         return lines, masked_image
 
     def getFrameSize(self, frame):
+        '''
+        Takes an input frame and returns the width and height of that frame
+        
+        :param frame: A 2-Channel or 3-Channel frame
+        :return: A tuple of integers of the width and height of the input frame (width, height)
+        '''
         # defining a 3 channel or 1 channel frame
         if len(frame.shape) > 2:
             height, width = frame.shape[:2]
@@ -165,6 +194,13 @@ class Lines:
             return width, height
 
     def getLeftHough(self, frame):
+        '''
+        This method calculates the hough lines of the left hand side of the frame and arranges them into an array, it also returns the frame section which has been analysed. This is returned in the form of a tuple (lines, masked_image)
+
+        :param frame: A 2-Channel frame from getEdges()
+        :return lines: An array of lines which have been estimated from the input frame
+        :return masked_image: A 2-Channel frame showing the edges that are being used in the estimation process
+        '''
         rho = 1  # distance resolution in pixels of the Hough grid
         theta = 1 * np.pi / 180  # angular resolution in radians of the Hough grid
         threshold = 30  # minimum number of votes (intersections in Hough grid cell)
@@ -196,6 +232,12 @@ class Lines:
 
 
     def calculateLinesRight(self, frame):
+        '''
+        Runs liner regression on lines detected from the input frame to find a best fit coordinate for line marking
+        on the right hand side
+        
+        :param frame: A 2-Channel frame from getEdges() method 
+        '''
         lines = self.getRightHough(frame)[0]
         width, height = self.getFrameSize(frame)
 
@@ -239,8 +281,14 @@ class Lines:
             self.right_line_state += 1
 
     def calculateLinesLeft(self, frame):
-        lines = self.getLeftHough(frame)[0]
-        width, height = self.getFrameSize(frame)
+        '''
+        Runs liner regression on lines detected from the input frame to find a best fit coordinate for line marking
+        on the left hand side
+
+        :param frame: A 2-Channel frame from getEdges() method 
+        '''
+        lines = self.getLeftHough(frame)[0] # get estimated hough lines
+        width, height = self.getFrameSize(frame) #
 
         if lines is not None and len(lines) > 0:
 
@@ -311,14 +359,6 @@ class Lines:
         cv2.line(mask, (self.right_x1, y1), (self.right_x2, y2), [0, 255, 0], 5)
         cv2.line(mask, (self.left_x1, y1), (self.left_x2, y2), [0, 255, 0], 5)
         return cv2.addWeighted(img, alpha, mask, beta, _lambda)
-
-    def bitwiseOrComposite(self, frame_A, frame_B):
-        composite = cv2.bitwise_or(frame_A, frame_B)
-        return composite
-
-    def bitwiseAndComposite(self, frame_A, frame_B):
-        composite = cv2.bitwise_and(frame_A, frame_B)
-        return composite
 
     def createDisplayFrame(self, frame_title, frame):
         return cv2.imshow(frame_title, frame)

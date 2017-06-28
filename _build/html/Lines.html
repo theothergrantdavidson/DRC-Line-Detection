@@ -88,68 +88,113 @@ lines for a self driving droid.</p>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="Lines.Lines.bitwiseAndComposite">
-<code class="descname">bitwiseAndComposite</code><span class="sig-paren">(</span><em>frame_A</em>, <em>frame_B</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.bitwiseAndComposite" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="Lines.Lines.bitwiseOrComposite">
-<code class="descname">bitwiseOrComposite</code><span class="sig-paren">(</span><em>frame_A</em>, <em>frame_B</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.bitwiseOrComposite" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="Lines.Lines.calculateLinesLeft">
 <code class="descname">calculateLinesLeft</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.calculateLinesLeft" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Runs liner regression on lines detected from the input frame to find a best fit coordinate for line marking
+on the left hand side</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> – A 2-Channel frame from getEdges() method</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.calculateLinesRight">
 <code class="descname">calculateLinesRight</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.calculateLinesRight" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Runs liner regression on lines detected from the input frame to find a best fit coordinate for line marking
+on the right hand side</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> – A 2-Channel frame from getEdges() method</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.convertToGrey">
 <code class="descname">convertToGrey</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.convertToGrey" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a input frame to greyscale
-:param frame: A 3-Channel video frame
-:return: A 2-Channel greyscale frame</p>
+<dd><p>Converts a input frame to greyscale</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> – A 3-Channel video frame</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A 2-Channel greyscale frame</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.convertToHLS">
 <code class="descname">convertToHLS</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.convertToHLS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a input frame to HLS
-:param frame: A 3-Channel RGB frame
-:return: A 3-Channel HLS frame</p>
+<dd><p>Converts a input frame to HLS</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> – A 3-Channel RGB frame</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A 3-Channel HLS frame</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.convertToHSV">
 <code class="descname">convertToHSV</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.convertToHSV" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts input frame to HSV color space
-:param frame: A 3-Channel RGB video frame
-:return: A 3-Channel HSV frame</p>
+<dd><p>Converts input frame to HSV color space</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> – A 3-Channel RGB video frame</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A 3-Channel HSV frame</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.convertToLAB">
 <code class="descname">convertToLAB</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.convertToLAB" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a input frame to LAB
-:param frame: A 3-Channel RGB frame
-:return: A 3-Channel LAB frame</p>
+<dd><p>Converts a input frame to LAB</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> – A 3-Channel RGB frame</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A 3-Channel LAB frame</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
-
-<dl class="method">
-<dt id="Lines.Lines.convertToLUV">
-<code class="descname">convertToLUV</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.convertToLUV" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.convertToXYZ">
 <code class="descname">convertToXYZ</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.convertToXYZ" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a input frame to XYZ
-:param frame: A 3-Channel RGB frame
-:return: A 3-Channel XYZ frame</p>
+<dd><p>Converts a input frame to XYZ</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> – A 3-Channel RGB frame</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A 3-Channel XYZ frame</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -160,10 +205,22 @@ lines for a self driving droid.</p>
 <dl class="method">
 <dt id="Lines.Lines.getColorChannel">
 <code class="descname">getColorChannel</code><span class="sig-paren">(</span><em>frame</em>, <em>channel</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.getColorChannel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method takes a frame and returns a specified color channel from that frame
-:param frame: A video frame
-:param channel: An integer from 0 - 2 which represents a color channel
-:return: The seperated color channel in the form of a 2 channel video frame</p>
+<dd><p>Method takes a frame and returns a specified color channel from that frame</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>frame</strong> – A video frame</li>
+<li><strong>channel</strong> – An integer from 0 - 2 which represents a color channel</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The seperated color channel in the form of a 2-Channel frame</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -179,36 +236,102 @@ lines for a self driving droid.</p>
 <dl class="method">
 <dt id="Lines.Lines.getEdges">
 <code class="descname">getEdges</code><span class="sig-paren">(</span><em>frame</em>, <em>low_threshold=50</em>, <em>high_threshold=100</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.getEdges" title="Permalink to this definition">¶</a></dt>
-<dd><p>Detects the edges in a 2-Channel image based on the threshold between which an edge should exist
-:param frame: A 2-Channel greyscale frame from either the convertToGrey() or getColorChannel()
-:param low_threshold: A value from 0 - 255 for the low threshold with which to choose edges
-:param high_threshold: A value from 0 - 255 for the low threshold with which to choose edges
-:return: A 2-Channel black and white frame</p>
+<dd><p>Detects the edges in a 2-Channel image based on the threshold between which an edge should exist</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>frame</strong> – A 2-Channel greyscale frame from either the convertToGrey() or getColorChannel()</li>
+<li><strong>low_threshold</strong> – A value from 0 - 255 for the low threshold with which to choose edges</li>
+<li><strong>high_threshold</strong> – A value from 0 - 255 for the low threshold with which to choose edges</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A 2-Channel black and white frame</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.getFrameSize">
 <code class="descname">getFrameSize</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.getFrameSize" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Takes an input frame and returns the width and height of that frame</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> – A 2-Channel or 3-Channel frame</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A tuple of integers of the width and height of the input frame (width, height)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.getLeftHough">
 <code class="descname">getLeftHough</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.getLeftHough" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This method calculates the hough lines of the left hand side of the frame and arranges them into an array, it also returns the frame section which has been analysed. This is returned in the form of a tuple (lines, masked_image)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> – A 2-Channel frame from getEdges()</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return lines:</th><td class="field-body">An array of lines which have been estimated from the input frame</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Return masked_image:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">A 2-Channel frame showing the edges that are being used in the estimation process</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.getOriginalFrame">
 <code class="descname">getOriginalFrame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.getOriginalFrame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads a frame from the capture source
-:ivar ret: Boolean which represents the return state of capture when read, False when video feed is broken
-:ivar frame: A 3-Channel RGB Video frame returned from capture when it is read
-:return: ret, ret_frame in the form of a tuple</p>
+<dd><p>Reads a frame from the capture source</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first simple">
+<li><strong>ret</strong> – Boolean which represents the return state of capture when read, False when video feed is broken</li>
+<li><strong>frame</strong> – A 3-Channel RGB Video frame returned from capture when it is read</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">ret, ret_frame in the form of a tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.getRightHough">
 <code class="descname">getRightHough</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.getRightHough" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This method calculates the hough lines of the right hand side of the frame and arranges them into an array, 
+it also returns the frame section which has been analysed. This is returned in the form of a tuple 
+(lines, masked_image)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> – A 2-Channel frame from getEdges()</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns - lines:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">An array of lines which have been estimated from the input frame</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Returns - masked_image:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">A 2-Channel frame showing the edges that are being used in the estimation process</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.move">
@@ -235,11 +358,23 @@ lines for a self driving droid.</p>
 <dt id="Lines.Lines.scaleFrame">
 <code class="descname">scaleFrame</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>input_frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.scaleFrame" title="Permalink to this definition">¶</a></dt>
 <dd><p>Scales a frame to the sepcified size and then returns that frame as well as updating the current_width
-of a frame in the classes variable field
-:param width: An Integer for a desired width
-:param height: An Integer for a desired height
-:param input_frame: A video frame
-:return: A 3-Channel scaled video frame</p>
+of a frame in the classes variable field</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>width</strong> – An Integer for a desired width</li>
+<li><strong>height</strong> – An Integer for a desired height</li>
+<li><strong>input_frame</strong> – A video frame</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A 3-Channel scaled video frame</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -250,7 +385,24 @@ of a frame in the classes variable field
 <dl class="method">
 <dt id="Lines.Lines.smoothFrame">
 <code class="descname">smoothFrame</code><span class="sig-paren">(</span><em>frame</em>, <em>kernel_size=15</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.smoothFrame" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Uses a convultional kernal to smooth an image based on an adaptive gaussian method, 
+the larger the kernel the longer the processing time</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>frame</strong> – a 2-Channel or 3-Channel frame</li>
+<li><strong>kernel_size</strong> – Must be an odd Integer</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A frame that has had a gaussian blur applied to it</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.weightedFrame">
