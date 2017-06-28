@@ -5,7 +5,22 @@ import numpy as np
 class Lines:
 
     def __init__(self, source):
-
+        '''
+        Constructor for Lines class
+        
+        :ivar capture: This is the entry point for the video feed from the source
+        :ivar ret: Boolean which represents the return state of capture when read, False when video feed is broken
+        :ivar frame: Video frame returned from capture when it is read
+        :ivar scale: A default scale for the Range of Interest
+        :ivar right_x1: Bottom x coordinate for the right hand line
+        :ivar right_x2: Top x coordinate for the right hand line
+        :ivar left_x1: Bottom x coordinate for the left hand line
+        :ivar left_x2: Top x coordinate foe the left hand line
+        :ivar current_width: Stores the current width of the scaled frame when method is executed
+        :ivar left_line_state: Keeps a count on how many times a left line has not been found
+        :ivar right_line_state: Keeps a count on how many times a right line has not been found    
+        :param source: This can be a string to the path of a video file or integer with a value of 0 for the default webcam.
+        '''
         self.capture = cv2.VideoCapture(source)
         self.ret, self.frame = self.capture.read()
         self.scale = 2
@@ -17,35 +32,90 @@ class Lines:
         self.right_line_state = 0
 
     def getColorChannel(self, frame, channel):
+        '''
+        Method takes a frame and returns a specified color channel from that frame
+        :param frame: A video frame
+        :param channel: An integer from 0 - 2 which represents a color channel
+        :return: The seperated color channel in the form of a 2 channel video frame
+        '''
         return frame[:,:,channel]
 
     def scaleFrame(self, width, height, input_frame):
+        '''
+        Scales a frame to the sepcified size and then returns that frame as well as updating the current_width
+        of a frame in the classes variable field
+        :param width: An Integer for a desired width
+        :param height: An Integer for a desired height
+        :param input_frame: A video frame
+        :return: A 3-Channel scaled video frame
+        '''
         self.current_width = width
         return cv2.resize(input_frame, (int(width), int(height)), interpolation=cv2.INTER_CUBIC)
 
     def releaseCaptureSource(self):
+        '''
+        Releases capture source when program closes
+        '''
         self.capture.release()
 
     def getOriginalFrame(self):
+        '''
+        Reads a frame from the capture source
+        :ivar ret: Boolean which represents the return state of capture when read, False when video feed is broken
+        :ivar frame: A 3-Channel RGB Video frame returned from capture when it is read
+        :return: ret, ret_frame in the form of a tuple
+        '''
         ret, ret_frame = self.capture.read()
         return ret, ret_frame
 
     def convertToHSV(self, frame):
+        '''
+        Converts input frame to HSV color space
+        :param frame: A 3-Channel RGB video frame
+        :return: A 3-Channel HSV frame
+        '''
         return cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     def convertToGrey(self, frame):
+        '''
+        Converts a input frame to greyscale
+        :param frame: A 3-Channel video frame
+        :return: A 2-Channel greyscale frame
+        '''
         return cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     def convertToHLS(self, frame):
+        '''
+        Converts a input frame to HLS
+        :param frame: A 3-Channel RGB frame
+        :return: A 3-Channel HLS frame
+        '''
         return cv2.cvtColor(frame, cv2.COLOR_BGR2HLS)
 
     def convertToXYZ(self, frame):
+        '''
+        Converts a input frame to XYZ
+        :param frame: A 3-Channel RGB frame
+        :return: A 3-Channel XYZ frame
+        '''
         return cv2.cvtColor(frame, cv2.COLOR_BGR2XYZ)
 
     def convertToLAB(self, frame):
+        '''
+        Converts a input frame to LAB
+        :param frame: A 3-Channel RGB frame
+        :return: A 3-Channel LAB frame
+        '''
         return cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
 
     def getEdges(self, frame, low_threshold = 50, high_threshold = 100):
+        '''
+        Detects the edges in a 2-Channel image based on the threshold between which an edge should exist
+        :param frame: A 2-Channel greyscale frame from either the convertToGrey() or getColorChannel()
+        :param low_threshold: A value from 0 - 255 for the low threshold with which to choose edges
+        :param high_threshold: A value from 0 - 255 for the low threshold with which to choose edges
+        :return: A 2-Channel black and white frame
+        '''
         return cv2.Canny(frame, low_threshold, high_threshold)
 
     def smoothFrame(self, frame, kernel_size=15):

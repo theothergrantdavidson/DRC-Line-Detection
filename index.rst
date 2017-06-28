@@ -10,6 +10,8 @@ Welcome to Line Detection's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+
+
 Indices and tables
 ==================
 

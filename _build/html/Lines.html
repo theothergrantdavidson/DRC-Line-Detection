@@ -43,12 +43,41 @@
             
   <div class="section" id="lines-module">
 <h1>Lines module<a class="headerlink" href="#lines-module" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="lines-class">
+<h2>Lines Class<a class="headerlink" href="#lines-class" title="Permalink to this headline">¶</a></h2>
+<p>The Lines class can be used to analyse lines in video footage and find
+lines for a self driving droid.</p>
 <div class="toctree-wrapper compound">
 </div>
 <span class="target" id="module-Lines"></span><dl class="class">
 <dt id="Lines.Lines">
 <em class="property">class </em><code class="descclassname">Lines.</code><code class="descname">Lines</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>Constructor for Lines class</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first simple">
+<li><strong>capture</strong> – This is the entry point for the video feed from the source</li>
+<li><strong>ret</strong> – Boolean which represents the return state of capture when read, False when video feed is broken</li>
+<li><strong>frame</strong> – Video frame returned from capture when it is read</li>
+<li><strong>scale</strong> – A default scale for the Range of Interest</li>
+<li><strong>right_x1</strong> – Bottom x coordinate for the right hand line</li>
+<li><strong>right_x2</strong> – Top x coordinate for the right hand line</li>
+<li><strong>left_x1</strong> – Bottom x coordinate for the left hand line</li>
+<li><strong>left_x2</strong> – Top x coordinate foe the left hand line</li>
+<li><strong>current_width</strong> – Stores the current width of the scaled frame when method is executed</li>
+<li><strong>left_line_state</strong> – Keeps a count on how many times a left line has not been found</li>
+<li><strong>right_line_state</strong> – Keeps a count on how many times a right line has not been found</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first last"><strong>source</strong> – This can be a string to the path of a video file or integer with a value of 0 for the default webcam.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
 <dt id="Lines.Lines.areLeftLinesLost">
 <code class="descname">areLeftLinesLost</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.areLeftLinesLost" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -81,22 +110,34 @@
 <dl class="method">
 <dt id="Lines.Lines.convertToGrey">
 <code class="descname">convertToGrey</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.convertToGrey" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Converts a input frame to greyscale
+:param frame: A 3-Channel video frame
+:return: A 2-Channel greyscale frame</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.convertToHLS">
 <code class="descname">convertToHLS</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.convertToHLS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Converts a input frame to HLS
+:param frame: A 3-Channel RGB frame
+:return: A 3-Channel HLS frame</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.convertToHSV">
 <code class="descname">convertToHSV</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.convertToHSV" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Converts input frame to HSV color space
+:param frame: A 3-Channel RGB video frame
+:return: A 3-Channel HSV frame</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.convertToLAB">
 <code class="descname">convertToLAB</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.convertToLAB" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Converts a input frame to LAB
+:param frame: A 3-Channel RGB frame
+:return: A 3-Channel LAB frame</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.convertToLUV">
@@ -106,7 +147,10 @@
 <dl class="method">
 <dt id="Lines.Lines.convertToXYZ">
 <code class="descname">convertToXYZ</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.convertToXYZ" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Converts a input frame to XYZ
+:param frame: A 3-Channel RGB frame
+:return: A 3-Channel XYZ frame</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.createDisplayFrame">
@@ -116,7 +160,11 @@
 <dl class="method">
 <dt id="Lines.Lines.getColorChannel">
 <code class="descname">getColorChannel</code><span class="sig-paren">(</span><em>frame</em>, <em>channel</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.getColorChannel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Method takes a frame and returns a specified color channel from that frame
+:param frame: A video frame
+:param channel: An integer from 0 - 2 which represents a color channel
+:return: The seperated color channel in the form of a 2 channel video frame</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.getCurrentLeftSpace">
@@ -131,7 +179,12 @@
 <dl class="method">
 <dt id="Lines.Lines.getEdges">
 <code class="descname">getEdges</code><span class="sig-paren">(</span><em>frame</em>, <em>low_threshold=50</em>, <em>high_threshold=100</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.getEdges" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Detects the edges in a 2-Channel image based on the threshold between which an edge should exist
+:param frame: A 2-Channel greyscale frame from either the convertToGrey() or getColorChannel()
+:param low_threshold: A value from 0 - 255 for the low threshold with which to choose edges
+:param high_threshold: A value from 0 - 255 for the low threshold with which to choose edges
+:return: A 2-Channel black and white frame</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.getFrameSize">
@@ -146,7 +199,11 @@
 <dl class="method">
 <dt id="Lines.Lines.getOriginalFrame">
 <code class="descname">getOriginalFrame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.getOriginalFrame" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Reads a frame from the capture source
+:ivar ret: Boolean which represents the return state of capture when read, False when video feed is broken
+:ivar frame: A 3-Channel RGB Video frame returned from capture when it is read
+:return: ret, ret_frame in the form of a tuple</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.getRightHough">
@@ -171,12 +228,19 @@
 <dl class="method">
 <dt id="Lines.Lines.releaseCaptureSource">
 <code class="descname">releaseCaptureSource</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.releaseCaptureSource" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Releases capture source when program closes</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.scaleFrame">
 <code class="descname">scaleFrame</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>input_frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.scaleFrame" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Scales a frame to the sepcified size and then returns that frame as well as updating the current_width
+of a frame in the classes variable field
+:param width: An Integer for a desired width
+:param height: An Integer for a desired height
+:param input_frame: A video frame
+:return: A 3-Channel scaled video frame</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.setScale">
@@ -196,6 +260,7 @@
 </dd></dl>
 
 </div>
+</div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
@@ -213,7 +278,10 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Lines module</a></li>
+<li><a class="reference internal" href="#">Lines module</a><ul>
+<li><a class="reference internal" href="#lines-class">Lines Class</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 <div class="relations">
