@@ -1,18 +1,12 @@
-import threading
-import time
-start = time.time()
+rl = Lines("drc3.mp4")
 
-def worker(arg):
-    print "Worker %s" %arg
+while True:
 
-'''
-for i in range(1000):
-    t = threading.Thread(target=worker(i))
-    t.start()
-'''
+    rl.processLines(True)
+    print rl.areLeftLinesLost(), rl.areRightLinesLost()
 
-for i in range(1000):
-    print i
+    if cv2.waitKey(30) & 0xFF == ord('q'):
+        break
 
-end = time.time()
-print(end - start)
+rl.capture.release()
+cv2.destroyAllWindows()

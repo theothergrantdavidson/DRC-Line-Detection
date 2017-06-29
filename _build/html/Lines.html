@@ -69,6 +69,7 @@ lines for a self driving droid.</p>
 <li><strong>current_width</strong> – Stores the current width of the scaled frame when method is executed</li>
 <li><strong>left_line_state</strong> – Keeps a count on how many times a left line has not been found</li>
 <li><strong>right_line_state</strong> – Keeps a count on how many times a right line has not been found</li>
+<li><strong>lost_line_threshold</strong> – A threshold where the program will believe that it can no longer see any lines</li>
 </ul>
 </td>
 </tr>
@@ -80,12 +81,30 @@ lines for a self driving droid.</p>
 <dl class="method">
 <dt id="Lines.Lines.areLeftLinesLost">
 <code class="descname">areLeftLinesLost</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.areLeftLinesLost" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>A method that checks how many times left lines have not been located</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if left lines can not be found, False otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.areRightLinesLost">
 <code class="descname">areRightLinesLost</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.areRightLinesLost" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>A method that checks how many times right lines have not been located</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if right lines can not be found, False otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.calculateLinesLeft">
@@ -200,12 +219,28 @@ on the right hand side</p>
 <dl class="method">
 <dt id="Lines.Lines.createDisplayFrame">
 <code class="descname">createDisplayFrame</code><span class="sig-paren">(</span><em>frame_title</em>, <em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.createDisplayFrame" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This method is for creating and returning a window to display 2-Channel or 3-Channel frames</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>frame_title</strong> – A string which represents the title of the window that will be created</li>
+<li><strong>frame</strong> – A 2-Channel or 3-Channel frame that will be rendered in the window</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A Display window containing the input frame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.getColorChannel">
 <code class="descname">getColorChannel</code><span class="sig-paren">(</span><em>frame</em>, <em>channel</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.getColorChannel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method takes a frame and returns a specified color channel from that frame</p>
+<dd><p>Method takes a 3-Channel frame and returns a specified color channel from that frame</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -226,12 +261,34 @@ on the right hand side</p>
 <dl class="method">
 <dt id="Lines.Lines.getCurrentLeftSpace">
 <code class="descname">getCurrentLeftSpace</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.getCurrentLeftSpace" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>A method which calculates the space between the center of the frame area and the bottom x position of the left
+line. Returns a percentage which represent how much space is left between the center of the frame and the
+left bottom x coordinate</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A Integer which represents a percentage between 0 and 100</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.getCurrentRightSpace">
 <code class="descname">getCurrentRightSpace</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.getCurrentRightSpace" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>A method which calculates the space between the center of the frame area and the bottom x position of the right
+line. Returns a percentage which represent how much space is left between the center of the frame and the
+right bottom x coordinate</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A Integer which represents a percentage between 0 and 100</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.getEdges">
@@ -243,12 +300,12 @@ on the right hand side</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>frame</strong> – A 2-Channel greyscale frame from either the convertToGrey() or getColorChannel()</li>
-<li><strong>low_threshold</strong> – A value from 0 - 255 for the low threshold with which to choose edges</li>
-<li><strong>high_threshold</strong> – A value from 0 - 255 for the low threshold with which to choose edges</li>
+<li><strong>low_threshold</strong> – Default value 50 - A value from 0 - 255 for the low threshold with which to choose edges</li>
+<li><strong>high_threshold</strong> – Default value 100 - A value from 0 - 255 for the low threshold with which to choose edges</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A 2-Channel black and white frame</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A 2-Channel black and white frame with detected edges</p>
 </td>
 </tr>
 </tbody>
@@ -281,9 +338,10 @@ on the right hand side</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> – A 2-Channel frame from getEdges()</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return lines:</th><td class="field-body">An array of lines which have been estimated from the input frame</td>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns - lines:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">An array of lines which have been estimated from the input frame</td>
 </tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Return masked_image:</th></tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Returns - masked_image:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">A 2-Channel frame showing the edges that are being used in the estimation process</td>
 </tr>
 </tbody>
@@ -334,19 +392,19 @@ it also returns the frame section which has been analysed. This is returned in t
 </dd></dl>
 
 <dl class="method">
-<dt id="Lines.Lines.move">
-<code class="descname">move</code><span class="sig-paren">(</span><em>left_space</em>, <em>right_space</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.move" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="Lines.Lines.processLines">
-<code class="descname">processLines</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.processLines" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="Lines.Lines.processVideoShowOutput">
-<code class="descname">processVideoShowOutput</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.processVideoShowOutput" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">processLines</code><span class="sig-paren">(</span><em>show_windows</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.processLines" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is for processing the video input and filling the variables inside the constructor. This is the
+main program of the Lines module and should be run inside a while loop.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>show_windows</strong> – A boolean that for showing display windows for camera calibration and debugging</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.releaseCaptureSource">
@@ -378,14 +436,38 @@ of a frame in the classes variable field</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="Lines.Lines.setLostLineThreshold">
+<code class="descname">setLostLineThreshold</code><span class="sig-paren">(</span><em>threshold</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.setLostLineThreshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method for overriding the value the lost line threshold which has a default value of 10</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>threshold</strong> – An integer representing desired threshold to detect lost lines</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="Lines.Lines.setScale">
 <code class="descname">setScale</code><span class="sig-paren">(</span><em>scale</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.setScale" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This method is for overriding the default scale value. The input is taken and divided by the original frame size
+of the input</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scale</strong> – Default value 2 - An integer or float to scale the size of the frame by</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="Lines.Lines.smoothFrame">
 <code class="descname">smoothFrame</code><span class="sig-paren">(</span><em>frame</em>, <em>kernel_size=15</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.smoothFrame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Uses a convultional kernal to smooth an image based on an adaptive gaussian method, 
+<dd><p>Uses a convulsion kernel to smooth an image based on an adaptive gaussian method, 
 the larger the kernel the longer the processing time</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -407,7 +489,26 @@ the larger the kernel the longer the processing time</p>
 <dl class="method">
 <dt id="Lines.Lines.weightedFrame">
 <code class="descname">weightedFrame</code><span class="sig-paren">(</span><em>img</em>, <em>alpha=0.8</em>, <em>beta=1.0</em>, <em>_lambda=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.weightedFrame" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This function provides a visual representation of lines that are found for the right side and left side,
+this function is for debugging and not needed for the program to work.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>img</strong> – A 3-Channel input frame</li>
+<li><strong>alpha</strong> – Default value 0.8 - Weight of the first array elements (input frame)</li>
+<li><strong>beta</strong> – Default value 1.0 - Weight of the second array elements (lines that are overlaid)</li>
+<li><strong>_lambda</strong> – Defalut value 0 - Scalar added to each sum of the array</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A 3-Channel frame with lines overlaid where they have been found</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
