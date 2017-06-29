@@ -291,6 +291,21 @@ right bottom x coordinate</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="Lines.Lines.getDirection">
+<code class="descname">getDirection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.getDirection" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method makes decisions to go left or right based upon whether both lines are present,
+one line is present or no lines are present.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">1 for turning right, 0 for turning left, -1 when there are no lines that can be found</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="Lines.Lines.getEdges">
 <code class="descname">getEdges</code><span class="sig-paren">(</span><em>frame</em>, <em>low_threshold=50</em>, <em>high_threshold=100</em><span class="sig-paren">)</span><a class="headerlink" href="#Lines.Lines.getEdges" title="Permalink to this definition">¶</a></dt>
 <dd><p>Detects the edges in a 2-Channel image based on the threshold between which an edge should exist</p>

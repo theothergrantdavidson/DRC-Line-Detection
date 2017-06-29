@@ -487,3 +487,34 @@ class Lines:
         :param threshold: An integer representing desired threshold to detect lost lines
         '''
         self.lost_line_threshold = threshold
+
+    def getDirection(self):
+        '''
+        This method makes decisions to go left or right based upon whether both lines are present,
+        one line is present or no lines are present.
+        
+        :return: 1 for turning right, 0 for turning left, -1 when there are no lines that can be found
+        '''
+
+        # If both line are available keep left and right ratios in parity
+        if self.areLeftLinesLost() == False and self.areRightLinesLost() == False:
+            if self.getCurrentLeftSpace() < 100:
+                # Turn right
+                return 1
+            if self.getCurrentRightSpace() < 100:
+                return 0
+        # If there are no left lines we bring the robot closer to the right hand line until the ratio 80% of free space
+        if self.areLeftLinesLost() == True and self.areRightLinesLost() == False:
+            if self.getCurrentRightSpace() > 90:
+                return 1
+            if self.getCurrentRightSpace() < 80:
+                return 0
+        # If there are no right lines we bring the robot closer to the left hand line until the ratio 80% of free space
+        if self.areLeftLinesLost() == False and self.areRightLinesLost() == True:
+            if self.getCurrentLeftSpace() > 90:
+                return 0
+            if self.getCurrentLeftSpace() < 80:
+                return 1
+        # If no lines can be found we return -1
+        if self.areRightLinesLost() == True and self.areLeftLinesLost() == True:
+            return -1
