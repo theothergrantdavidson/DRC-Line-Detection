@@ -589,40 +589,6 @@ class Lines:
         self.low_threshold = low
         self.high_threshold = high
 
-
-    def AIFeedback(self):
-
-        try:
-            direction = self.getDirection()
-
-            space = ""
-
-            if self.isThereSpace() == 1:
-                space = "Overtake on the right"
-            elif self.isThereSpace() == 0:
-                space = "Overtake on the left"
-            elif self.isThereSpace() == -1:
-                 space = "Overtake on either side"
-
-            if direction == 1:
-                return ("RatioL:%d%%| RatioR:%d%% |Dir: Right |%s|%s| %s" % (
-                    self.getCurrentLeftSpace(), self.getCurrentRightSpace(), self.areLeftLinesLost(),
-                    self.areRightLinesLost(), space))
-            elif direction == 0:
-                return ("RatioL:%d%%| RatioR:%d%% |Dir: Left |%s|%s| %s" % (
-                    self.getCurrentLeftSpace(), self.getCurrentRightSpace(), self.areLeftLinesLost(),
-                    self.areRightLinesLost(), space))
-            elif direction == -1:
-                return ("RatioL:%d%%| RatioR:%d%% |Dir: Straight |%s|%s| %s" % (
-                    self.getCurrentLeftSpace(), self.getCurrentRightSpace(), self.areLeftLinesLost(),
-                    self.areRightLinesLost(), space))
-            else:
-                return "No lines going straight"
-
-        except:
-            return "No directions available"
-
-
     def getRightAngle(self):
         return self.right_angle
 
